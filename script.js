@@ -2,30 +2,38 @@
 LOADER
 ========================= */
 
-window.addEventListener("load",()=>{
+window.addEventListener("load", function () {
+
+const loader = document.getElementById("loader")
+
+if(loader){
+
+setTimeout(() => {
+
+loader.style.opacity = "0"
 
 setTimeout(()=>{
-
-let loader=document.getElementById("loader")
-if(loader){
-loader.style.display="none"
-}
+loader.style.display = "none"
+},500)
 
 },2000)
 
+}
+
 })
+
 
 /* =========================
 DARK / LIGHT MODE
 ========================= */
 
-const toggle=document.getElementById("modeToggle")
-const navLogo=document.getElementById("siteLogo")
-const heroLogo=document.getElementById("heroLogo")
+const toggle = document.getElementById("modeToggle")
+const navLogo = document.getElementById("siteLogo")
+const heroLogo = document.getElementById("heroLogo")
 
 if(toggle){
 
-toggle.onclick=function(){
+toggle.onclick = () => {
 
 document.body.classList.toggle("light")
 
@@ -33,37 +41,38 @@ if(document.body.classList.contains("light")){
 
 toggle.textContent="☀️"
 
-navLogo.src="img/logo-light.png"
-heroLogo.src="img/logo-light.png"
+if(navLogo) navLogo.src="img/logo-light.png"
+if(heroLogo) heroLogo.src="img/logo-light.png"
 
 }else{
 
 toggle.textContent="🌙"
 
-navLogo.src="img/logo-dark.png"
-heroLogo.src="img/logo-dark.png"
+if(navLogo) navLogo.src="img/logo-dark.png"
+if(heroLogo) heroLogo.src="img/logo-dark.png"
 
 }
 
 }
 
 }
+
 
 /* =========================
 SCROLL REVEAL
 ========================= */
 
-const reveal=document.querySelectorAll(".reveal")
+const reveal = document.querySelectorAll(".reveal")
 
-function show(){
+function showReveal(){
 
-let windowHeight=window.innerHeight
+let windowHeight = window.innerHeight
 
 reveal.forEach(el=>{
 
-let top=el.getBoundingClientRect().top
+let top = el.getBoundingClientRect().top
 
-if(top<windowHeight-60){
+if(top < windowHeight - 60){
 el.classList.add("active")
 }
 
@@ -71,100 +80,71 @@ el.classList.add("active")
 
 }
 
-window.addEventListener("scroll",show)
-window.addEventListener("load",show)
+window.addEventListener("scroll",showReveal)
+window.addEventListener("load",showReveal)
+
 
 /* =========================
 FAQ TOGGLE
 ========================= */
 
-let faqBtn=document.querySelectorAll(".faqBtn")
+const faqBtn = document.querySelectorAll(".faqBtn")
 
 faqBtn.forEach(btn=>{
 
-btn.onclick=()=>{
+btn.onclick = ()=>{
 
-let text=btn.nextElementSibling
+const text = btn.nextElementSibling
 
-text.style.display=
-text.style.display==="block"
-?"none":"block"
+if(text){
+
+text.style.display =
+text.style.display === "block"
+? "none"
+: "block"
+
+}
 
 }
 
 })
 
-/* =========================
-SCROLL TO TOP
-========================= */
-
-let topBtn=document.getElementById("topBtn")
-
-if(topBtn){
-
-window.onscroll=()=>{
-
-if(document.documentElement.scrollTop>200){
-topBtn.style.display="block"
-}else{
-topBtn.style.display="none"
-}
-
-}
-
-topBtn.onclick=()=>{
-window.scrollTo({
-top:0,
-behavior:"smooth"
-})
-}
-
-}
 
 /* =========================
-ZOOM GAMBAR LIVERY
+ZOOM GAMBAR
 ========================= */
 
-let imgs=document.querySelectorAll(".zoom")
-let modal=document.getElementById("imgModal")
-let modalImg=document.getElementById("modalImg")
+const imgs = document.querySelectorAll(".zoom")
+const modal = document.getElementById("imgModal")
+const modalImg = document.getElementById("modalImg")
 
-if(imgs && modal){
+if(imgs.length && modal && modalImg){
 
 imgs.forEach(img=>{
 
-img.onclick=()=>{
+img.onclick = ()=>{
 
 modal.style.display="flex"
-modalImg.src=img.src
+modalImg.src = img.src
 
 }
 
 })
 
-modal.onclick=()=>{
+modal.onclick = ()=>{
 modal.style.display="none"
 }
 
 }
 
+
 /* =========================
-ORDER WHATSAPP OTOMATIS
+FORMAT PESAN WA
 ========================= */
 
-let orders=document.querySelectorAll(".order")
+function formatPesan(produk){
 
-orders.forEach(btn=>{
-
-btn.onclick=function(e){
-
-e.preventDefault()
-
-let card=this.closest(".card")
-let produk=card.querySelector("h3").innerText
-
-let pesan=
-`Halo ZIMM x KYY STORE
+return `Halo ZIMM x KYY STORE
 
 Nama:
 Pesanan: ${produk}
@@ -172,25 +152,75 @@ Pembayaran: DANA / GOPAY
 Email Akun:
 Password Akun:`
 
-let url="https://wa.me/62895805295495?text="+encodeURIComponent(pesan)
+}
 
-window.open(url)
+
+/* =========================
+ORDER MODIF + AKUN
+========================= */
+
+const orderButtons = document.querySelectorAll("#modif .order, #akun .order")
+
+orderButtons.forEach(btn=>{
+
+btn.onclick = function(e){
+
+e.preventDefault()
+
+const card = this.closest(".card")
+if(!card) return
+
+const produk = card.querySelector("h3").innerText
+
+const url =
+"https://wa.me/62895805295495?text=" +
+encodeURIComponent(formatPesan(produk))
+
+window.open(url,"_blank")
 
 }
 
 })
 
+
 /* =========================
-COUNTER PEMBELI LIVERY
+ORDER LIVERY
 ========================= */
 
-let buys=document.querySelectorAll(".buy")
+const liveryButtons = document.querySelectorAll("#livery .buy")
+
+liveryButtons.forEach(btn=>{
+
+btn.onclick = function(e){
+
+e.preventDefault()
+
+const card = this.closest(".card")
+if(!card) return
+
+const produk = card.querySelector("h3").innerText
+
+const url =
+"https://wa.me/6285799237548?text=" +
+encodeURIComponent(formatPesan(produk))
+
+window.open(url,"_blank")
+
+}
+
+})
+
+
+/* =========================
+COUNTER PEMBELI
+========================= */
+
 let buyer=document.getElementById("buyer")
 let count=20
 
-buys.forEach(btn=>{
+document.querySelectorAll(".buy").forEach(btn=>{
 
-btn.onclick=()=>{
+btn.addEventListener("click",function(){
 
 count++
 
@@ -198,56 +228,52 @@ if(buyer){
 buyer.innerHTML=count+"+<br>Pembeli"
 }
 
+})
+
+})
+
+
+/* =========================
+BADGE TERMAHAL / TERMURAH
+========================= */
+
+const allCards = document.querySelectorAll(".card")
+let prices = []
+
+allCards.forEach(card=>{
+
+const p = card.querySelector("p")
+if(!p) return
+
+const priceText = p.innerText.replace(/[^0-9]/g,"")
+const price = parseInt(priceText)
+
+if(!isNaN(price)){
+prices.push({card,price})
 }
 
 })
 
-/* =========================
-AUTO BADGE TERMAHAL / TERMURAH
-========================= */
+if(prices.length){
 
-let allCards=document.querySelectorAll(".card")
-let prices=[]
-
-allCards.forEach(card=>{
-
-let priceText=card.querySelector("p").innerText.replace(/[^0-9]/g,"")
-let price=parseInt(priceText)
-
-prices.push({card,price})
-
-})
-
-let maxPrice=Math.max(...prices.map(p=>p.price))
-let minPrice=Math.min(...prices.map(p=>p.price))
-
-allCards.forEach(card=>{
-
-let existing=card.querySelector(".badge")
-if(existing) existing.remove()
-
-})
+const maxPrice = Math.max(...prices.map(p=>p.price))
+const minPrice = Math.min(...prices.map(p=>p.price))
 
 prices.forEach(p=>{
 
-let badge=document.createElement("span")
+let badge = document.createElement("span")
 badge.classList.add("badge")
 
-if(p.price===maxPrice){
-
-badge.innerText="TERMAHAL"
-
-}else if(p.price===minPrice){
-
-badge.innerText="TERMURAH"
-
+if(p.price === maxPrice){
+badge.innerText = "TERMAHAL"
+}else if(p.price === minPrice){
+badge.innerText = "TERMURAH"
 }else{
-
 return
-
 }
 
 p.card.appendChild(badge)
 
 })
 
+}

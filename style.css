@@ -461,3 +461,7 @@ text-align:center;
 }
 
 }
+
+#loader{
+transition:0.5s;
+}
