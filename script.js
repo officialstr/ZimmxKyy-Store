@@ -2,23 +2,22 @@
 LOADER
 ========================= */
 
-window.addEventListener("load", function () {
+window.addEventListener("load", function(){
 
 const loader = document.getElementById("loader")
+const progress = document.querySelector(".loading-progress")
 
-if(loader){
+if(!loader || !progress) return
 
-setTimeout(() => {
+progress.addEventListener("animationend", function(){
 
 loader.style.opacity = "0"
 
 setTimeout(()=>{
 loader.style.display = "none"
-},500)
+},300)
 
-},2000)
-
-}
+})
 
 })
 
@@ -33,7 +32,7 @@ const heroLogo = document.getElementById("heroLogo")
 
 if(toggle){
 
-toggle.onclick = () => {
+toggle.addEventListener("click",function(){
 
 document.body.classList.toggle("light")
 
@@ -53,7 +52,7 @@ if(heroLogo) heroLogo.src="img/logo-dark.png"
 
 }
 
-}
+})
 
 }
 
@@ -173,7 +172,7 @@ if(!card) return
 const produk = card.querySelector("h3").innerText
 
 const url =
-"https://wa.me/62895805295495?text=" +
+"https://wa.me/6283167210496?text=" +
 encodeURIComponent(formatPesan(produk))
 
 window.open(url,"_blank")
